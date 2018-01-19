@@ -45,6 +45,26 @@ export interface Response {
 }
 
 /**
+ * 객체를 쿼리문으로 만듦
+ * @param params Query 객체
+ */
+function queryParams(params: any = {}) {
+    return Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+}
+
+/**
+ * 전체 URL을 만듦
+ * @param url 스키마 + 도메인네임
+ * @param params 쿼리 객체
+ */
+function withQuery(url: string, params: any = {}) {
+    const queryString = queryParams(params);
+    return queryString ? url + (url.indexOf('?') === -1 ? '?' : '&') + queryString : url;
+}
+
+/**
  * XHR 결과를 파싱한다
  * @param xhr XHR 객체
  */
